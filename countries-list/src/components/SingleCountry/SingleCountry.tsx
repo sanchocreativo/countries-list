@@ -10,25 +10,40 @@ const className = 'SingleCountry';
 
 const SingleCountry: React.FC<Props> = ({ data }) => {
   if (!data.country) {
-    return <div>No launch available</div>;
+    return <div className={className}>Selecciona un País para que aparezca aquí! 🙂</div>;
   }
 
+  if (data.country) {
+    console.log(data.country.languages);
+  }
   return (
     <div className={className}>
       <div className={`${className}__status`}>
-        <span>Country {data.country.name}: </span>
-        {data.country.currency? (
-          <span className={`${className}__success`}>Success</span>
-        ) : (
-          <span className={`${className}__failed`}>Failed</span>
-        )}
+        <img
+          className={`${className}__flag`}
+          alt={data.country.name}
+          src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${data.country.code}.svg`} />
+        <h1 className={`${className}__title`}>Codigo de Pais: <strong>{data.country.code}</strong> </h1>
+        <h1 className={`${className}__title`}>Nombre de Pais: <strong>{data.country.name} </strong> la capital siendo <strong>{data.country.capital}</strong> </h1>
       </div>
       <h1 className={`${className}__title`}>
-        {data.country.currency}
+        💲: Su moneda oficial es <strong> {data.country.currency}</strong>
       </h1>
-      <p className={`${className}__description`}>{data.country.emoji}</p>
+      <h1 className={`${className}__title`}>
+        💬 Idiomas
+      </h1>
+      <div className={`${className}__status`}>
+
+        {!!data.country && data.country.languages.map((val, i) => {
+          return (
+            <h1 key={i}><strong> {val.name} </strong>
+            </h1>
+          )
+        })
+        }
+      </div>
     </div>
   );
-};
+}
 
 export default SingleCountry;

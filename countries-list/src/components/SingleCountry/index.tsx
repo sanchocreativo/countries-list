@@ -1,20 +1,28 @@
 import * as React from 'react';
 import { useCountryQuery } from '../../generated/graphql';
 import SingleCountry from './SingleCountry';
+import { useLocation } from 'react-router-dom';
 
 interface OwnProps {
-    code: string;
-  }
+  code: string;
+}
 
-const SingleCountryContainer: React.FC<OwnProps> = ({code}) => {
+const SingleCountryContainer: React.FC<OwnProps> = ({ code }) => {
   const { data, error, loading, refetch } = useCountryQuery({ variables: { code: code } });
+  const location = useLocation();
 
   React.useEffect(() => {
     refetch({ code: String(code) });
   }, [refetch, code]);
 
+  React.useEffect(() => {
+    if (location.pathname.includes('country')) {
+      refetch({ code: String(location.pathname.split("/").pop()) });
+    }
+  }, [refetch, location]);
+
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Cargando...</div>;
   }
 
   if (error) {
@@ -22,7 +30,7 @@ const SingleCountryContainer: React.FC<OwnProps> = ({code}) => {
   }
 
   if (!data) {
-    return <div>Select a Country from the panel</div>;
+    return <div>Elije un Pais del panel</div>;
   }
 
   return <SingleCountry data={data} />;

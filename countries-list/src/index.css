@@ -7,7 +7,37 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+::-webkit-input-placeholder {
+    font-family: 'Nunito', sans-serif;
+}
+:-moz-placeholder {
+    font-family: 'Nunito', sans-serif;
+}
+::-moz-placeholder {
+    font-family: 'Nunito', sans-serif;
+}
+:-ms-input-placeholder {
+    font-family: 'Nunito', sans-serif;
+}
+
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+  border-radius: 4px;
+  background-color: #fafafa;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 16px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 16px;
 }

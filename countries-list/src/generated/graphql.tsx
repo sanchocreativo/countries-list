@@ -134,22 +134,36 @@ export type _Service = {
 export type CountriesListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CountriesListQuery = { __typename?: 'Query', countries: Array<{ __typename?: 'Country', name: string, code: string, emoji: string }> };
+export type CountriesListQuery = { __typename?: 'Query', countries: Array<{ __typename?: 'Country', name: string, native: string, emoji: string, currency?: string | null, code: string, continent: { __typename?: 'Continent', name: string, code: string }, languages: Array<{ __typename?: 'Language', code: string, name?: string | null }> }>, continents: Array<{ __typename?: 'Continent', code: string, name: string }> };
 
 export type CountryQueryVariables = Exact<{
   code: Scalars['ID'];
 }>;
 
 
-export type CountryQuery = { __typename?: 'Query', country?: { __typename?: 'Country', name: string, native: string, emoji: string, currency?: string | null, languages: Array<{ __typename?: 'Language', code: string, name?: string | null }> } | null };
+export type CountryQuery = { __typename?: 'Query', country?: { __typename?: 'Country', code: string, name: string, native: string, emoji: string, currency?: string | null, capital?: string | null, continent: { __typename?: 'Continent', code: string, name: string }, languages: Array<{ __typename?: 'Language', code: string, name?: string | null }> } | null };
 
 
 export const CountriesListDocument = gql`
     query CountriesList {
   countries {
     name
-    code
+    native
     emoji
+    currency
+    code
+    continent {
+      name
+      code
+    }
+    languages {
+      code
+      name
+    }
+  }
+  continents {
+    code
+    name
   }
 }
     `;
@@ -183,10 +197,16 @@ export type CountriesListQueryResult = Apollo.QueryResult<CountriesListQuery, Co
 export const CountryDocument = gql`
     query Country($code: ID!) {
   country(code: $code) {
+    code
     name
     native
     emoji
     currency
+    capital
+    continent {
+      code
+      name
+    }
     languages {
       code
       name
